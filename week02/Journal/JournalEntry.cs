@@ -6,15 +6,16 @@ public class JournalEntry
     public string Response { get; set; }
     public string Date { get; set; }
 
-    public JournalEntry(string prompt, string response, string date)
+    // Constructor accepting the date as well
+    public JournalEntry(string prompt, string response, string date = null)
     {
         Prompt = prompt;
         Response = response;
-        Date = date;
+        Date = date ?? DateTime.Now.ToShortDateString(); // Default to current date if not provided
     }
 
     public override string ToString()
     {
-        return $"{Date} - {Prompt}\n{Response}\n";
+        return $"{Prompt} | {Response} | {Date}";
     }
 }

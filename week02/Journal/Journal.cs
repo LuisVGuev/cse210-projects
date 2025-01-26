@@ -4,69 +4,62 @@ using System.IO;
 
 public class Journal
 {
-    private List<JournalEntry> entries;
+    public List<JournalEntry> Entries { get; set; }
 
     public Journal()
     {
-        entries = new List<JournalEntry>();
+        Entries = new List<JournalEntry>();
     }
 
-    public void AddEntry(string prompt, string response)
+    public void AddEntry(JournalEntry entry)
     {
-        JournalEntry newEntry = new JournalEntry(prompt, response);
-        entries.Add(newEntry);
+        Entries.Add(entry);
     }
 
     public void DisplayEntries()
     {
-        foreach (JournalEntry entry in entries)
+        foreach (var entry in Entries)
         {
             Console.WriteLine(entry.ToString());
         }
     }
 
-    public void SaveJournal(string filename)
+    public void SaveToFile(string filename)
     {
         using (StreamWriter writer = new StreamWriter(filename))
         {
-            foreach (JournalEntry entry in entries)
+            foreach (var entry in Entries)
             {
                 writer.WriteLine(entry.ToString());
             }
         }
     }
 
-    public void LoadJournal(string filename)
+    public void LoadFromFile(string filename)
     {
-        entries.Clear();
-        try
-        {
-            string[] lines = File.ReadAllLines(filename);
-            foreach (string line in lines)
-            {
-                string[] parts = line.Split('|');
-                if (parts.Length == 3)
-                {
-                    string date = parts[0].Trim();
-                    string prompt = parts[1].Trim();
-                    string response = parts[2].Trim();
+        Entries.Clear();
 
-                    JournalEntry entry = new JournalEntry(prompt, response)
-                    {
-                        Date = date
-                    };
-                    entries.Add(entry);
-                }
+        // Handle potential file read issues, like file not existing or being empty
+        if (!File.Exists(filename))
+        {
+            Console.WriteLine("File does not exist.");
+            return;
+        }
+
+        var lines = File.ReadAllLines(filename);
+        foreach (var line in lines)
+        {
+            var parts = line.Split(" | ");
+            if (parts.Length == 3)
+            {
+                // Ensure that the date is set correctly in the JournalEntry
+                string prompt = parts[0];
+                string response = parts[1];
+                string date = parts[2];
+
+                // Add entry with the correct date
+                Entries.Add(new JournalEntry(prompt, response, date));
             }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error loading journal: " + ex.Message);
-        }
-    }
-
-    public int GetEntryCount()
-    {
-        return entries.Count;
     }
 }
