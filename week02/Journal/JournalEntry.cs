@@ -1,5 +1,6 @@
 using System;
 
+//Entry class
 public class Entry
 {
     public string Prompt { get; set; }
