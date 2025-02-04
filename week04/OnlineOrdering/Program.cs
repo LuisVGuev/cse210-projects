@@ -6,8 +6,8 @@ public class Program
     public static void Main()
     {
         //Address
-        Address address1 = new Address("123 Main St", "Manhatan", "NY", "USA");
-        Address address2 = new Address("456 Oak Ave", "Francias", "ON", "Paria");
+        Address address1 = new Address("123 Main St", "Manhattan", "NY", "USA");
+        Address address2 = new Address("10-14 Rue d'Alésia", "Paris", "ON", "FRance");
 
         //Customer
         Customer customer1 = new Customer("Josep Pain", address1);
