@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+//Journal Class
 public class Journal
 {
     private List<Entry> entries = new List<Entry>();
