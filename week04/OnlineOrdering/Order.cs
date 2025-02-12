@@ -1,43 +1,50 @@
+//Order.cs
 using System;
 using System.Collections.Generic;
 
 public class Order
 {
-    private List<Product> products;
-    private Customer customer;
-    private const double shippingCostUSA = 5.0;
-    private const double shippingCostInternational = 35.0;
+    private List<Product> _products;
+    private Customer _customer;
 
-    public Order(Customer customer, List<Product> products)
+    public Order(Customer customer)
     {
-        this.customer = customer;
-        this.products = products;
+        _customer = customer;
+        _products = new List<Product>();
     }
 
-    public double GetTotalPrice()
+    public void AddProduct(Product product)
     {
-        double totalProductPrice = 0;
-        foreach (var product in products)
+        _products.Add(product);
+    }
+
+    public double GetTotalCost()
+    {
+        double totalCost = 0;
+        foreach (var product in _products)
         {
-            totalProductPrice += product.GetTotalPrice();
+            totalCost += product.GetTotalCost();
         }
 
-        double shippingCost = customer.IsInUSA() ? shippingCostUSA : shippingCostInternational;
-        return totalProductPrice + shippingCost;
+        // Add shipping cost based on the customer's location
+        double shippingCost = _customer.IsInUSA() ? 5.00 : 35.00;
+        totalCost += shippingCost;
+
+        return totalCost;
     }
 
     public string GetPackingLabel()
     {
-        string label = "";
-        foreach (var product in products)
+        string label = "Packing Label:\n";
+        foreach (var product in _products)
         {
-            label += product.GetLabel() + "\n";
+            label += $"Name: {product.Name}, Product ID: {product.ProductId}\n";
         }
         return label;
     }
 
     public string GetShippingLabel()
     {
-        return customer.GetShippingLabel();
+        return $"Shipping Label:\n{_customer.Name}\n{_customer.CustomerAddress.GetFullAddress()}";
     }
 }

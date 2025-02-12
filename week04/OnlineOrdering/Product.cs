@@ -1,26 +1,26 @@
+//products.cs
 public class Product
 {
-    private string name;
-    private int id;
-    private double price;
-    private int quantity;
+    private string _name;
+    private int _productId;
+    private double _price;
+    private int _quantity;
 
-    public Product(string name, int id, double price, int quantity)
+    public Product(string name, int productId, double price, int quantity)
     {
-        this.name = name;
-        this.id = id;
-        this.price = price;
-        this.quantity = quantity;
+        _name = name;
+        _productId = productId;
+        _price = price;
+        _quantity = quantity;
     }
 
-    public double GetTotalPrice()
-    {
-        return price * quantity;
-    }
+    public string Name => _name;
+    public int ProductId => _productId;
+    public double Price => _price;
+    public int Quantity => _quantity;
 
-    public string GetLabel()
+    public double GetTotalCost()
     {
-        return $"{name} (ID: {id})";
+        return _price * _quantity;
     }
 }
-
